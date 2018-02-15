@@ -20,8 +20,12 @@ import org.opencv.videoio.VideoCapture;
 import static org.opencv.imgcodecs.Imgcodecs.imencode; 
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-
+import java.sql.*;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import java.awt.Font;
 public class FaceDetector extends JFrame {
+	
 	
 	//definitions
 	private DaemonThread thread1 = null;
@@ -31,7 +35,8 @@ public class FaceDetector extends JFrame {
 	CascadeClassifier faceTracker = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath().substring(1));
 	MatOfRect trackedFaces= new MatOfRect();
 	VideoCapture webSource;
-	
+	MysqlConnection db = new MysqlConnection();
+	Connection con = db.dbConnect();
 	class DaemonThread implements Runnable{
 		protected volatile boolean Runnable= false;
 		
@@ -54,12 +59,28 @@ public class FaceDetector extends JFrame {
 							Image im= ImageIO.read(new ByteArrayInputStream(new1.toArray()));
 							BufferedImage buff =(BufferedImage) im;	
 							//display the frames on the panel
-							if(g.drawImage(buff, 10, 10, getWidth()-30, getHeight() - 150, 0, 0, buff.getWidth(),buff.getHeight(), null)) {
+							if(g.drawImage(buff, 10, 10, getWidth()-30, getHeight() - 185, 0, 0, buff.getWidth(),buff.getHeight(), null)) {
 								if(Runnable==false) {
 									System.out.println("paused.");
 									this.wait();
 								}
 							} 
+							//Statement st =db.conn.createStatement();
+							
+							if (con!= null) {
+								//Statement st =con.createStatement();
+								//st.executeUpdate("insert into user(name, email) values('what','the@gmail.com');");
+								System.out.println("reached here.");
+								String query ="insert into user (name, email, face) values(?,?, buff);";
+								PreparedStatement stmt =db.conn.prepareStatement(query);
+								stmt.setString(1, textFieldname.getText());
+								stmt.setString(2, textFieldmail.getText());
+								stmt.execute();
+								
+							}/*else {
+								System.out.println("connection is null.");
+							}
+							*/
 						}catch (Exception ex) {
 							System.out.println("Error");
 						}
@@ -71,6 +92,8 @@ public class FaceDetector extends JFrame {
 	}
 	
 	private JPanel contentPane;
+	private JTextField textFieldname;
+	private JTextField textFieldmail;
 
 	/**
 	 * Launch the application.
@@ -93,18 +116,20 @@ public class FaceDetector extends JFrame {
 	 * Create the frame.
 	 */
 	public FaceDetector() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 626, 503);
+		setBounds(100, 100, 629, 503);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(78, 11, 410, 398);
+		panel.setBounds(78, 11, 410, 295);
 		contentPane.add(panel);
 		
-		JButton login = new JButton("Login");
+		JButton login = new JButton("Next");
+		login.setFont(new Font("Georgia", Font.PLAIN, 15));
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				webSource = new VideoCapture();
@@ -121,7 +146,27 @@ public class FaceDetector extends JFrame {
 				login.setEnabled(false);
 			}
 		});
-		login.setBounds(249, 430, 89, 23);
+		login.setBounds(249, 430, 147, 23);
 		contentPane.add(login);
+		
+		textFieldname = new JTextField();
+		textFieldname.setBounds(252, 317, 286, 36);
+		contentPane.add(textFieldname);
+		textFieldname.setColumns(10);
+		
+		textFieldmail = new JTextField();
+		textFieldmail.setColumns(10);
+		textFieldmail.setBounds(252, 370, 286, 36);
+		contentPane.add(textFieldmail);
+		
+		JLabel lblUserName = new JLabel("User Name");
+		lblUserName.setFont(new Font("Georgia", Font.PLAIN, 15));
+		lblUserName.setBounds(153, 317, 89, 36);
+		contentPane.add(lblUserName);
+		
+		JLabel lblEmail = new JLabel("E-mail");
+		lblEmail.setFont(new Font("Georgia", Font.PLAIN, 15));
+		lblEmail.setBounds(153, 370, 89, 36);
+		contentPane.add(lblEmail);
 	}
 }
