@@ -19,6 +19,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class FirstPage extends JFrame {
 
@@ -45,27 +47,33 @@ public class FirstPage extends JFrame {
 	 * Create the frame.
 	 */
 	public FirstPage() {
+		setTitle("Home");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 701, 482);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(240, 230, 140));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(240, 230, 140));
 		panel.setBounds(22, 11, 316, 421);
 		contentPane.add(panel);
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setFont(new Font("Georgia", Font.PLAIN, 18));
-		lblNewLabel.setIcon(new ImageIcon(FirstPage.class.getResource("/images/0b350b39b80c2c6cf3f7a6ace18bacc1.jpg")));
+		lblNewLabel.setIcon(new ImageIcon(FirstPage.class.getResource("/images/maxresdefault.jpg")));
 		lblNewLabel.setBounds(10, 0, 306, 421);
 		//ImageIcon Im1;
 		panel.setLayout(null);
 		panel.add(lblNewLabel);
 		
-		JButton btnNewButton = new JButton("Register");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnRegister = new JButton("Register");
+		btnRegister.setToolTipText("Click to register to the system");
+		btnRegister.setForeground(new Color(0, 0, 0));
+		btnRegister.setBackground(SystemColor.control);
+		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					FaceDetector frame = new FaceDetector();
@@ -77,21 +85,20 @@ public class FirstPage extends JFrame {
 			}
 		});
 		
-		btnNewButton.setFont(new Font("Georgia", Font.PLAIN, 17));
-		btnNewButton.setBounds(389, 97, 271, 52);
-		contentPane.add(btnNewButton);
+		btnRegister.setFont(new Font("Gabriola", Font.BOLD, 28));
+		btnRegister.setBounds(389, 97, 271, 52);
+		contentPane.add(btnRegister);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(392, 179, 271, 2);
 		contentPane.add(separator);
 		
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setFont(new Font("Georgia", Font.PLAIN, 17));
+		btnLogin.setToolTipText("Click to login to the system");
+		btnLogin.setBackground(SystemColor.control);
+		btnLogin.setFont(new Font("Gabriola", Font.BOLD, 28));
 		btnLogin.setBounds(389, 218, 271, 52);
 		contentPane.add(btnLogin);
-		//Image image = Im1.getImage(); // transform it 
-		//Image newimg = image.getScaledInstance(350, 427,  java.awt.Image.SCALE_SMOOTH);
-		
 		
 	}
 }
