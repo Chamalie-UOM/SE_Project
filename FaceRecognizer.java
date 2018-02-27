@@ -1,4 +1,4 @@
-package authentication;
+package GUAclasses;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -47,6 +47,7 @@ public class FaceRecognizer extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(240, 230, 140));
 		panel.setBounds(84, 0, 456, 316);
 		contentPane.add(panel);
 		

@@ -1,4 +1,4 @@
-package authentication;
+package GUAclasses;
 
 public class Password {
 
