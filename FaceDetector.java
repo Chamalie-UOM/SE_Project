@@ -33,17 +33,17 @@ import java.awt.Color;
 public class FaceDetector extends JFrame {
 	
 	//definitions
-	private DaemonThread thread1 = null;
 	private Mat frame;
 	private MatOfByte byteFrame;
 	private CascadeClassifier faceTracker;
-	private MatOfRect trackedFaces;
-	private VideoCapture webSource;
-	MysqlConnection db = new MysqlConnection();
+	MatOfRect trackedFaces;
+	DaemonThread thread1 = null;
+	VideoCapture webSource;
+	MysqlConnection db = MysqlConnection.getConnInstance();
 	User newuser;
 	
 	class DaemonThread implements Runnable{
-		protected volatile boolean Runnable= false;
+		volatile boolean Runnable= false;
 		boolean dbflag = false;
 		public void run() {
 			synchronized(this) {
@@ -54,7 +54,6 @@ public class FaceDetector extends JFrame {
 							Graphics g = contentPane.getGraphics();
 							this.drawRectangle(trackedFaces);
 							this.displayFrame(frame, g);	
-							
 							// adding new user data to the database.
 							if (db.conn!= null && !dbflag) {
 								System.out.println("reached here.");
@@ -69,7 +68,7 @@ public class FaceDetector extends JFrame {
 							}
 							
 						}catch (Exception ex) {
-							System.out.println(ex +"1");
+							ex.printStackTrace();;
 						}
 					}
 				}
@@ -131,7 +130,7 @@ public class FaceDetector extends JFrame {
 		
 	}
 	
-	private JPanel contentPane;
+	JPanel contentPane;
 	private JTextField textFieldname;
 	private JTextField textFieldmail;
 	private JTextField textFieldtpnum;
