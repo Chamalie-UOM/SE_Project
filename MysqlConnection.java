@@ -4,22 +4,34 @@ import java.sql.*;
 import javax.swing.*;
 
 public class MysqlConnection {
+	private static MysqlConnection connection = null;
 	static Connection conn;
 	
 	
-	public MysqlConnection() {
+	private MysqlConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn =DriverManager.getConnection("jdbc:mysql://localhost:3306/facedb","root","Chamalie$1995");
 			if(conn!=null) {
-				//JOptionPane.showMessageDialog(null, "Connection successfull.");
-				}
+				JOptionPane.showMessageDialog(null, "Connection successfull.");
+			}
 				
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static MysqlConnection getConnInstance() {
+		if(connection == null) {
+			synchronized(MysqlConnection.class) {
+				if(connection == null) {
+					connection = new MysqlConnection();
+				}
+			}
+		}
+		return connection;
 	}
 	
 	public void saveData(User user) {
