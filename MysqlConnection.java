@@ -1,11 +1,19 @@
 package GUAclasses;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.*;
 import javax.swing.*;
 
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
+
 public class MysqlConnection {
 	private static MysqlConnection connection = null;
-	static Connection conn;
+	Connection conn;
 	
 	
 	private MysqlConnection() {
@@ -44,7 +52,9 @@ public class MysqlConnection {
 			stmt.setString(2, user.getMail());
 			stmt.setString(3, user.getTpnum());
 			stmt.setString(4, user.getRecovPass());
-			stmt.setNString(5, user.getFace().toString());
+			File file = new File(user.getName() + ".jpg");
+			InputStream fis = new FileInputStream(file); 
+			stmt.setBinaryStream(5, fis);
 			stmt.execute();
 		} catch (Exception e) {
 			
@@ -53,8 +63,35 @@ public class MysqlConnection {
 		
 	}
 	
+	public Mat getFace(User user) {
+		String query = "SELECT face FROM user WHERE name =?;";
+		PreparedStatement stmt;
+		Mat img= null;
+		File imFile = new File("testFile.jpg");
+		try {
+			stmt = this.conn.prepareStatement(query);
+			stmt.setString(1,user.getName());
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				Blob imgBlob = rs.getBlob(1); 
+				InputStream in = imgBlob.getBinaryStream();
+				OutputStream out = new FileOutputStream(imFile);
+				byte[] buff =new byte[4096];
+				int len=0;
+				
+				while ((len = in.read(buff))!= -1) {
+					out.write(buff, 0, len);
+				}
+				img = Imgcodecs.imread(imFile.getAbsolutePath());
+				System.out.println(img);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return img;
+	}
 	public static void main(String[] args) {	
 
-	}
+	} 
 
 }

@@ -30,20 +30,22 @@ import java.awt.event.ActionEvent;
 public class FaceRecognizer extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textFieldName;
+	private JTextField userName;
+	
+	MysqlConnection db = MysqlConnection.getConnInstance();
 	
 	FaceDetector faceDet = new FaceDetector();
 	FaceDetector.DaemonThread thread1 = faceDet.new DaemonThread();
 	User user =new User();
 	
+	//detect face and capture test image
 	public void recognize() {
-		
 		thread1.dbflag = true;
 		Thread t = new Thread(thread1);
 		t.setDaemon(true);
 		thread1.Runnable=true;
 		t.start();
-		user.setName("test");
+		//user.setName("test");
 		Boolean faceFlag = false;
 		while(thread1.Runnable) {
 			try {
@@ -55,6 +57,7 @@ public class FaceRecognizer extends JFrame {
 		}
 	}
 	
+	//Get the user test image to recognize face.
 	public void getTestImg(User user) {
 		try {
 			thread1.extractFace(faceDet.trackedFaces, user);
@@ -95,13 +98,14 @@ public class FaceRecognizer extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(240, 230, 140));
-		panel.setBounds(84, 0, 456, 316);
+		panel.setBounds(98, 0, 456, 316);
 		contentPane.add(panel);
 		
-		textFieldName = new JTextField();
-		textFieldName.setBounds(267, 327, 270, 34);
-		contentPane.add(textFieldName);
-		textFieldName.setColumns(10);
+		userName = new JTextField();
+	
+		userName.setBounds(267, 327, 270, 34);
+		contentPane.add(userName);
+		userName.setColumns(10);
 		
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Georgia", Font.PLAIN, 15));
@@ -117,7 +121,10 @@ public class FaceRecognizer extends JFrame {
 				if(faceDet.webSource.isOpened()) {
 					System.out.println("webcam switched on");
 					FaceRecognizer.this.recognize();
-					
+					user.setName(userName.getText());
+					user.setFace(db.getFace(user));
+					CreatePass frame1 = new CreatePass(user);
+					frame1.setVisible(true);
 				}else {
 					System.out.println("code not working");
 				}

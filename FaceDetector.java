@@ -15,6 +15,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -91,7 +93,10 @@ public class FaceDetector extends JFrame {
 			webSource.retrieve(frame);
 			trackedFaces =new MatOfRect();
 			faceTracker = new CascadeClassifier(FaceDetector.class.getResource("haarcascade_frontalface_alt.xml").getPath().substring(1));
-			faceTracker.detectMultiScale(frame, trackedFaces);
+			while(trackedFaces.empty()) {
+				faceTracker.detectMultiScale(frame, trackedFaces);
+			}
+			
 		}
 		
 		//Display the captured frames from the webcam in the panel.
@@ -121,7 +126,7 @@ public class FaceDetector extends JFrame {
 				Size sz = new Size(240,240);
 				Imgproc.resize(face, face, sz);
 				String filename= user.getName()+".jpg" ;
-				Imgcodecs.imwrite(filename,face);	
+				Imgcodecs.imwrite(filename,face);
 			}
 			System.out.print(face);
 			return face;
