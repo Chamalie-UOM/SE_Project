@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -29,6 +30,8 @@ import org.opencv.objdetect.CascadeClassifier;
 import java.sql.*;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JInternalFrame;
 import java.awt.Color;
@@ -43,6 +46,18 @@ public class FaceDetector extends JFrame {
 	VideoCapture webSource;
 	MysqlConnection db = MysqlConnection.getConnInstance();
 	User newuser;
+	
+	public boolean isAlpha(String name) {
+	    char[] chars = name.toCharArray();
+
+	    for (char c : chars) {
+	        if(!Character.isLetter(c)) {
+	            return false;
+	        }
+	    }
+
+	    return true;
+	}
 	
 	class DaemonThread implements Runnable{
 		volatile boolean Runnable= false;
@@ -175,7 +190,7 @@ public class FaceDetector extends JFrame {
 		JInternalFrame secPage = new JInternalFrame("Create Graphical Password");
 		secPage.setClosable(true);
 	
-		secPage.setBounds(0, 1, 534, 438);
+		secPage.setBounds(10, 11, 534, 438);
 		contentPane.add(secPage);
 		secPage.getContentPane().setLayout(null);
 		
@@ -213,6 +228,11 @@ public class FaceDetector extends JFrame {
 		Nextbtn.setFont(new Font("Georgia", Font.PLAIN, 15));
 		Nextbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+			if (textFieldname.getText().trim().isEmpty() || textFieldmail.getText().trim().isEmpty() || 
+			textFieldtpnum.getText().trim().isEmpty()||textFieldPass.getText().trim().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Please complete all fields.");
+			}else {
 				webSource = new VideoCapture();
 				webSource.open(0);
 				
@@ -232,11 +252,19 @@ public class FaceDetector extends JFrame {
 				Nextbtn.setVisible(false);
 				setPass.setVisible(true);
 			}
+			}
 		});
 		Nextbtn.setBounds(260, 382, 147, 23);
 		contentPane.add(Nextbtn);
 		
 		textFieldname = new JTextField();
+		textFieldname.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!isAlpha(textFieldname.getText())) {
+					JOptionPane.showMessageDialog(null, "User name can only contain letters. Please re-enter.");
+				}
+			}
+		});
 		textFieldname.setBounds(221, 89, 286, 36);
 		contentPane.add(textFieldname);
 		textFieldname.setColumns(10);
@@ -261,7 +289,7 @@ public class FaceDetector extends JFrame {
 		textFieldtpnum.setBounds(221, 183, 286, 36);
 		contentPane.add(textFieldtpnum);
 		
-		textFieldPass = new JTextField();
+		textFieldPass = new JPasswordField();
 		textFieldPass.setColumns(10);
 		textFieldPass.setBounds(221, 230, 286, 36);
 		contentPane.add(textFieldPass);
