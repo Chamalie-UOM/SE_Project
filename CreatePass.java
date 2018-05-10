@@ -22,13 +22,42 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 public class CreatePass extends JFrame {
+	
+	private final int rows = 2; //You should decide the values for rows and cols variables
+    private final int cols = 2;
+    private final int chunks = rows * cols;
+    private final int SPACING = 0;//spacing between split images
+    private JLabel[] labels; //for the image chunks
+    
 
-	private JPanel cpane;
+
+	JPanel cpane;
 	User user;
-
+	Password ps =new Password();
+	MysqlConnection db = MysqlConnection.getConnInstance();
+	JButton btnRegister;
 	/**
 	 * Launch the application.
 	 */
@@ -51,36 +80,70 @@ public class CreatePass extends JFrame {
 	public CreatePass(User user) {
 		this.user =user;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 532, 435);
+		setBounds(100, 100, 458, 409);
 		cpane = new JPanel();
 		cpane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(cpane);
 		cpane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(99, 23, 308, 284);
+		panel.setBounds(24, 23, 383, 306);
 		cpane.add(panel);
 		
 		JLabel lblNewLabel = new JLabel("");
 		panel.add(lblNewLabel);
 		displayFace(lblNewLabel);
 		
-		JButton btnRegister = new JButton("Register");
+		btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				System.out.println(ps.getPassString());
+				db.savePassword(user.getName(), ps.getPassString());
 				JOptionPane.showMessageDialog(null, "Registered to the system successfully.");
 			}
 		});
-		btnRegister.setBounds(210, 339, 89, 23);
+		btnRegister.setBounds(318, 340, 89, 23);
 		cpane.add(btnRegister);
 		
 	}
 	
+	MouseListener ml = new MouseListener() {
+		 public void mouseClicked(MouseEvent e) {
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			 ps.PassSeq.add(((JLabel) e.getSource()).getText());
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	};
 	
 	public void displayFace(JLabel lblNewLabel) {
 		BufferedImage b=null;
 		Mat img1 = user.getFace();
 		MatOfByte mob =new MatOfByte();
+		
+		
 		if (img1!=null) {
 			imencode(".jpg",img1,mob);
 			
@@ -88,11 +151,12 @@ public class CreatePass extends JFrame {
 			try {
 				img = ImageIO.read(new ByteArrayInputStream(mob.toArray()));
 				b =(BufferedImage) img;	
-				System.out.println("here");
-				Graphics g= cpane.getGraphics();
+				//System.out.println("here");
+				/*Graphics g= cpane.getGraphics();
 				if(b!=null) {
 					lblNewLabel.setIcon(new ImageIcon(b));
-				}
+				}*/
+				initComponents(b);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -101,4 +165,43 @@ public class CreatePass extends JFrame {
 		
 		
 	}
+	
+	private void initComponents(BufferedImage im) {
+
+        BufferedImage[] imgs = getImages(im);
+
+        //set contentpane layout for grid
+        this.getContentPane().setLayout(new GridLayout(rows, cols, 0, 0));
+
+        labels = new JLabel[imgs.length];
+        
+        //create JLabels with split images and add to frame contentPane
+        for (int i = 0; i < imgs.length; i++) {
+            labels[i] = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit().createImage(imgs[i].getSource())));
+            labels[i].setText(String.valueOf(i));
+            this.getContentPane().add(labels[i]);
+            labels[i].addMouseListener(ml);
+        }
+    }
+
+    private BufferedImage[] getImages(BufferedImage image) {
+       
+        int chunkWidth = image.getWidth() / cols; // determines the chunk width and height
+        int chunkHeight = image.getHeight() / rows;
+        int count = 0;
+        BufferedImage imgs[] = new BufferedImage[chunks]; //Image array to hold image chunks
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < cols; y++) {
+                //Initialize the image array with image chunks
+                imgs[count] = new BufferedImage(chunkWidth, chunkHeight, image.getType());
+
+                // draws the image chunk
+                Graphics2D gr = imgs[count++].createGraphics();
+                gr.drawImage(image, 0, 0, chunkWidth, chunkHeight, chunkWidth * y, chunkHeight * x, chunkWidth * y + chunkWidth, chunkHeight * x + chunkHeight, null);
+                
+                gr.dispose();
+            }
+        }
+        return imgs;
+    }
 }

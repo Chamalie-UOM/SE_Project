@@ -90,6 +90,38 @@ public class MysqlConnection {
 		}
 		return img;
 	}
+	
+	public void savePassword(String name,String pass) {
+		String query ="insert into account (name, grph_pass) values(?,?);";
+		PreparedStatement stmt;
+			try {
+				stmt = this.conn.prepareStatement(query);
+				stmt.setString(1, name);
+				stmt.setString(2, pass);
+				stmt.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+	}
+	
+	public String getPassword(String name) {
+		String query = "SELECT grph_pass FROM account WHERE name =?;";
+		PreparedStatement stmt;
+		String pass=null;
+		try {
+			stmt = this.conn.prepareStatement(query);
+			stmt.setString(1,name);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				pass = rs.getString(0);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pass;
+	}
+	
 	public static void main(String[] args) {	
 
 	} 
