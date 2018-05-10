@@ -208,8 +208,6 @@ public class FaceDetector extends JFrame {
 		setPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				thread1.Runnable=false;
-				//secPage.setVisible(true);			
-				//secPage.toFront();
 				FaceDetector.this.dispose();
 				webSource.release();
 				CreatePass frame1 = new CreatePass(newuser);

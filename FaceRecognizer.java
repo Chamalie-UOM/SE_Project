@@ -125,6 +125,7 @@ public class FaceRecognizer extends JFrame {
 					user.setName(userName.getText());
 					user.setFace(db.getFace(user));
 					CreatePass frame1 = new CreatePass(user);
+					frame1.btnRegister.setVisible(false);
 					frame1.setVisible(true);
 				}else {
 					System.out.println("code not working");
