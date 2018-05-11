@@ -90,6 +90,68 @@ public class MysqlConnection {
 		}
 		return img;
 	}
+	
+	public void savePassword(String name,String pass) {
+		String query ="insert into account (name, grph_pass) values(?,?);";
+		PreparedStatement stmt;
+			try {
+				stmt = this.conn.prepareStatement(query);
+				stmt.setString(1, name);
+				stmt.setString(2, pass);
+				stmt.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+	}
+	
+	public String getPassword(String name) {
+		String query = "SELECT grph_pass FROM account WHERE name =?;";
+		PreparedStatement stmt;
+		String pass=null;
+		try {
+			stmt = this.conn.prepareStatement(query);
+			stmt.setString(1,name);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				pass = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pass;
+	}
+	
+	public String getRecoveryPass(String name) {
+		String query = "SELECT recovPass FROM user WHERE name =?;";
+		PreparedStatement stmt;
+		String pass=null;
+		try {
+			stmt = this.conn.prepareStatement(query);
+			stmt.setString(1,name);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				pass = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pass;
+	}
+	
+	public void updatePassword(String name,String pass) {
+		String query ="update account set grph_pass=? where name=?;";
+		PreparedStatement stmt;
+			try {
+				stmt = this.conn.prepareStatement(query);
+				stmt.setString(1, pass);
+				stmt.setString(2, name);
+				stmt.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+	}
 	public static void main(String[] args) {	
 
 	} 

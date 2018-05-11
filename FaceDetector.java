@@ -208,16 +208,12 @@ public class FaceDetector extends JFrame {
 		setPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				thread1.Runnable=false;
-				//secPage.setVisible(true);			
-				//secPage.toFront();
 				FaceDetector.this.dispose();
 				webSource.release();
 				CreatePass frame1 = new CreatePass(newuser);
+				frame1.btnLogin.setVisible(false);
+				frame1.btnUpdate.setVisible(false);
 				frame1.setVisible(true);
-				
-				
-				
-				
 			}
 		});
 		setPass.setFont(new Font("Georgia", Font.PLAIN, 15));
@@ -258,13 +254,6 @@ public class FaceDetector extends JFrame {
 		contentPane.add(Nextbtn);
 		
 		textFieldname = new JTextField();
-		textFieldname.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!isAlpha(textFieldname.getText())) {
-					JOptionPane.showMessageDialog(null, "User name can only contain letters. Please re-enter.");
-				}
-			}
-		});
 		textFieldname.setBounds(221, 89, 286, 36);
 		contentPane.add(textFieldname);
 		textFieldname.setColumns(10);
