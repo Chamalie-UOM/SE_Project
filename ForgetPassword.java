@@ -69,6 +69,7 @@ public class ForgetPassword extends JFrame {
 					frame3.btnLogin.setVisible(false);
 					frame3.btnRegister.setVisible(false);
 					frame3.setVisible(true);
+					JOptionPane.showMessageDialog(null,"Select a sequence of segments in a specified order to be used as your graphical password.");
 					ForgetPassword.this.dispose();
 				}else {
 					JOptionPane.showMessageDialog(null, "The recovery passsword you entered is incorrect.");

@@ -133,6 +133,7 @@ public class FaceRecognizer extends JFrame {
 						frame1.btnRegister.setVisible(false);
 						frame1.btnUpdate.setVisible(false);
 						frame1.setVisible(true);
+						JOptionPane.showMessageDialog(null,"Enter your password sequence to login.");
 						FaceRecognizer.this.dispose();
 					}else {
 						System.out.println("code not working");
