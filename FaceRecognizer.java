@@ -18,6 +18,8 @@ import GUAclasses.FaceDetector.DaemonThread;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -116,25 +118,49 @@ public class FaceRecognizer extends JFrame {
 		JButton btnNext = new JButton("Next");
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				faceDet.webSource = new VideoCapture();
-				faceDet.webSource.open(0);
-				faceDet.contentPane = FaceRecognizer.this.contentPane;
-				if(faceDet.webSource.isOpened()) {
-					System.out.println("webcam switched on");
-					FaceRecognizer.this.recognize();
-					user.setName(userName.getText());
-					user.setFace(db.getFace(user));
-					CreatePass frame1 = new CreatePass(user);
-					frame1.setVisible(true);
+				if(userName.getText().trim().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please enter the username.");
 				}else {
-					System.out.println("code not working");
+					faceDet.webSource = new VideoCapture();
+					faceDet.webSource.open(0);
+					faceDet.contentPane = FaceRecognizer.this.contentPane;
+					if(faceDet.webSource.isOpened()) {
+						System.out.println("webcam switched on");
+						FaceRecognizer.this.recognize();
+						user.setName(userName.getText());
+						user.setFace(db.getFace(user));
+						CreatePass frame1 = new CreatePass(user);
+						frame1.btnRegister.setVisible(false);
+						frame1.btnUpdate.setVisible(false);
+						frame1.setVisible(true);
+						FaceRecognizer.this.dispose();
+					}else {
+						System.out.println("code not working");
+					}
 				}
-				
 			}
 		});
 		btnNext.setFont(new Font("Georgia", Font.PLAIN, 15));
 		btnNext.setBounds(267, 383, 121, 34);
 		contentPane.add(btnNext);
+		
+		JButton btnPass = new JButton("Forgot password?");
+		btnPass.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(userName.getText().trim().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please enter the username.");
+				}else {
+					user.setName(userName.getText());
+					user.setFace(db.getFace(user));
+					ForgetPassword frame2 =new ForgetPassword(user);
+					frame2.setVisible(true);
+					FaceRecognizer.this.dispose();
+				}
+			}
+		});
+		btnPass.setFont(new Font("Georgia", Font.PLAIN, 15));
+		btnPass.setBounds(398, 383, 167, 34);
+		contentPane.add(btnPass);
 		
 		
 		
