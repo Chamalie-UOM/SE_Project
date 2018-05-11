@@ -36,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -52,8 +53,6 @@ public class CreatePass extends JFrame {
     private final int SPACING = 2;//spacing between split images
     private JLabel[] labels; //for the image chunks
     
-
-
 	JPanel cpane;
 	User user;
 	Password ps =new Password();
@@ -61,6 +60,7 @@ public class CreatePass extends JFrame {
 	JButton btnRegister;
 	JButton btnLogin;
 	JButton btnUpdate;
+	int count;
 	/**
 	 * Launch the application.
 	 */
@@ -97,6 +97,7 @@ public class CreatePass extends JFrame {
 		panel.add(lblNewLabel);
 		displayFace(lblNewLabel);
 		
+		//Registration process
 		btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -116,6 +117,8 @@ public class CreatePass extends JFrame {
 		btnRegister.setBounds(336, 374, 89, 23);
 		cpane.add(btnRegister);
 		
+		//Login process
+		count=0;
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -125,20 +128,39 @@ public class CreatePass extends JFrame {
 					JOptionPane.showMessageDialog(null, "Logged in successfully.");
 				}else {
 					JOptionPane.showMessageDialog(null, "Incorrect password. Please try again.");
+					count++;
+					if(count>3) {
+						btnLogin.setVisible(false);
+						try {
+							JOptionPane.showMessageDialog(null, "You have incorrectly entered the password three times. System will be locked for one minute.");
+							TimeUnit.MINUTES.sleep(1);
+							count =0;
+						} catch (InterruptedException e1) {
+							e1.printStackTrace();
+						}
+						ps.PassSeq.clear();
+						btnLogin.setVisible(true);
+					}
+					ps.PassSeq.clear();
 				}
 			}
 		});
 		btnLogin.setBounds(336, 374, 89, 23);
 		cpane.add(btnLogin);
 		
+		//Forgot password process
 		btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				db.updatePassword(user.getName(), ps.getPassString());
-				JOptionPane.showMessageDialog(null, "Password updated successfully.");
-				HomePage frame1 = new HomePage();
-				frame1.setVisible(true);
-				CreatePass.this.dispose();
+				if(ps.getPassString().length()>=4) {
+					db.updatePassword(user.getName(), ps.getPassString());
+					JOptionPane.showMessageDialog(null, "Password updated successfully.");
+					HomePage frame1 = new HomePage();
+					frame1.setVisible(true);
+					CreatePass.this.dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "Your password should contain minimum four clicks.");
+				}	
 			}
 		});
 		btnUpdate.setBounds(336, 374, 89, 23);
@@ -146,21 +168,17 @@ public class CreatePass extends JFrame {
 		
 	}
 	
+	//Tracking the password
 	MouseListener ml = new MouseListener() {
-		 public void mouseClicked(MouseEvent e) {
-			
+		 public void mouseClicked(MouseEvent e) {	
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -171,8 +189,6 @@ public class CreatePass extends JFrame {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 	};
@@ -181,11 +197,8 @@ public class CreatePass extends JFrame {
 		BufferedImage b=null;
 		Mat img1 = user.getFace();
 		MatOfByte mob =new MatOfByte();
-		
-		
 		if (img1!=null) {
 			imencode(".jpg",img1,mob);
-			
 			Image img;
 			try {
 				img = ImageIO.read(new ByteArrayInputStream(mob.toArray()));
@@ -201,15 +214,13 @@ public class CreatePass extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		
-		
 	}
 	
 	private void initComponents(BufferedImage im) {
 
         BufferedImage[] imgs = getImages(im);
 
-        //set contentpane layout for grid
+        //set content pane layout for grid
         this.getContentPane().setLayout(new GridLayout(rows, cols, 2, 2));
 
         labels = new JLabel[imgs.length];

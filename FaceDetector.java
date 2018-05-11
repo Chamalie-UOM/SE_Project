@@ -214,6 +214,7 @@ public class FaceDetector extends JFrame {
 				frame1.btnLogin.setVisible(false);
 				frame1.btnUpdate.setVisible(false);
 				frame1.setVisible(true);
+				JOptionPane.showMessageDialog(null,"Select a sequence of segments in a specified order to be used as your graphical password.");
 			}
 		});
 		setPass.setFont(new Font("Georgia", Font.PLAIN, 15));
