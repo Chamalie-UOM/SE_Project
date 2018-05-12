@@ -120,7 +120,9 @@ public class FaceRecognizer extends JFrame {
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(userName.getText().trim().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Please enter the username.");
+					JOptionPane.showMessageDialog(null, "Please enter the username");
+				}else if(!db.checkUserExistance(userName.getText())) {
+					JOptionPane.showMessageDialog(null, "Please enter a valid username");
 				}else {
 					faceDet.webSource = new VideoCapture();
 					faceDet.webSource.open(0);
@@ -152,6 +154,8 @@ public class FaceRecognizer extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if(userName.getText().trim().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Please enter the username.");
+				}else if(!db.checkUserExistance(userName.getText())) {
+					JOptionPane.showMessageDialog(null, "Please enter a valid username");
 				}else {
 					user.setName(userName.getText());
 					user.setFace(db.getFace(user));
@@ -177,8 +181,5 @@ public class FaceRecognizer extends JFrame {
 		btnCancel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		btnCancel.setBounds(330, 383, 121, 34);
 		contentPane.add(btnCancel);
-		
-		
-		
 	}
 }
