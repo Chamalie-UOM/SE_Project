@@ -28,6 +28,8 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import javax.swing.UIManager;
 
 
 public class FaceRecognizer extends JFrame {
@@ -94,17 +96,18 @@ public class FaceRecognizer extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 662, 482);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(240, 230, 140));
+		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(240, 230, 140));
+		panel.setBackground(Color.LIGHT_GRAY);
 		panel.setBounds(98, 0, 456, 316);
 		contentPane.add(panel);
 		
 		userName = new JTextField();
+		userName.setFont(new Font("Georgia", Font.PLAIN, 15));
 	
 		userName.setBounds(267, 327, 270, 34);
 		contentPane.add(userName);
@@ -116,6 +119,7 @@ public class FaceRecognizer extends JFrame {
 		contentPane.add(lblUsername);
 		
 		JButton btnNext = new JButton("Next");
+		btnNext.setBackground(UIManager.getColor("Button.background"));
 		btnNext.setToolTipText("Press to enter the graphical password to login");
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -149,6 +153,7 @@ public class FaceRecognizer extends JFrame {
 		contentPane.add(btnNext);
 		
 		JButton btnPass = new JButton("Forgot password?");
+		btnPass.setBackground(UIManager.getColor("Button.background"));
 		btnPass.setToolTipText("Press to reset your graphical password");
 		btnPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -170,6 +175,7 @@ public class FaceRecognizer extends JFrame {
 		contentPane.add(btnPass);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setBackground(UIManager.getColor("Button.background"));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FaceRecognizer.this.dispose();

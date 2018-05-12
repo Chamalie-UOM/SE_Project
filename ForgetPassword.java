@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
+import java.awt.Toolkit;
 
 public class ForgetPassword extends JFrame {
 
@@ -43,11 +45,12 @@ public class ForgetPassword extends JFrame {
 	 * Create the frame.
 	 */
 	public ForgetPassword(User user) {
+		setTitle("Reset Password");
 		this.user =user;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 551, 400);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(240, 230, 140));
+		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -58,11 +61,13 @@ public class ForgetPassword extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		textpass = new JPasswordField();
+		textpass.setFont(new Font("Georgia", Font.PLAIN, 15));
 		textpass.setBounds(122, 154, 305, 30);
 		contentPane.add(textpass);
 		textpass.setColumns(10);
 		
 		JButton btnEnter = new JButton("Enter");
+		btnEnter.setBackground(UIManager.getColor("Button.background"));
 		btnEnter.setToolTipText("Press to reset your graphical password");
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -83,6 +88,7 @@ public class ForgetPassword extends JFrame {
 		contentPane.add(btnEnter);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setBackground(UIManager.getColor("Button.background"));
 		btnCancel.setToolTipText("Press to return to Login page");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
