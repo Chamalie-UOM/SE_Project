@@ -35,6 +35,9 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JInternalFrame;
 import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
+import javax.swing.UIManager;
 public class FaceDetector extends JFrame {
 	
 	//definitions
@@ -185,12 +188,13 @@ public class FaceDetector extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 629, 503);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(240, 230, 140));
+		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton setPass = new JButton("Set Password");
+		setPass.setBackground(UIManager.getColor("Button.background"));
 		setPass.setVisible(false);
 		setPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -205,7 +209,7 @@ public class FaceDetector extends JFrame {
 			}
 		});
 		setPass.setFont(new Font("Georgia", Font.PLAIN, 15));
-		setPass.setBounds(143, 355, 147, 23);
+		setPass.setBounds(143, 355, 147, 31);
 		contentPane.add(setPass);
 		
 		JButton Nextbtn = new JButton("Next");
@@ -246,11 +250,13 @@ public class FaceDetector extends JFrame {
 		contentPane.add(Nextbtn);
 		
 		textFieldname = new JTextField();
+		textFieldname.setFont(new Font("Georgia", Font.PLAIN, 15));
 		textFieldname.setBounds(221, 89, 286, 36);
 		contentPane.add(textFieldname);
 		textFieldname.setColumns(10);
 		
 		textFieldmail = new JTextField();
+		textFieldmail.setFont(new Font("Georgia", Font.PLAIN, 15));
 		textFieldmail.setName("emailInput");
 		textFieldmail.setColumns(10);
 		textFieldmail.setBounds(221, 136, 286, 36);
@@ -267,11 +273,13 @@ public class FaceDetector extends JFrame {
 		contentPane.add(lblEmail);
 		
 		textFieldtpnum = new JTextField();
+		textFieldtpnum.setFont(new Font("Georgia", Font.PLAIN, 15));
 		textFieldtpnum.setColumns(10);
 		textFieldtpnum.setBounds(221, 183, 286, 36);
 		contentPane.add(textFieldtpnum);
 		
 		textFieldPass = new JPasswordField();
+		textFieldPass.setFont(new Font("Georgia", Font.PLAIN, 15));
 		textFieldPass.setColumns(10);
 		textFieldPass.setBounds(221, 230, 286, 36);
 		contentPane.add(textFieldPass);
@@ -287,6 +295,7 @@ public class FaceDetector extends JFrame {
 		contentPane.add(lblRecoveryPassword);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setBackground(UIManager.getColor("Button.background"));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!Nextbtn.isVisible()) {
@@ -300,7 +309,7 @@ public class FaceDetector extends JFrame {
 			}
 		});
 		btnCancel.setFont(new Font("Georgia", Font.PLAIN, 15));
-		btnCancel.setBounds(313, 356, 147, 23);
+		btnCancel.setBounds(313, 356, 147, 30);
 		contentPane.add(btnCancel);
 	
 		

@@ -13,6 +13,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import javax.swing.UIManager;
 
 public class FinalPage extends JFrame {
 
@@ -22,10 +24,11 @@ public class FinalPage extends JFrame {
 	 * Create the frame.
 	 */
 	public FinalPage() {
+		setTitle("User Account Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 731, 485);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(240, 230, 140));
+		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -45,6 +48,8 @@ public class FinalPage extends JFrame {
 		panel.add(lblNewLabel_1);
 		
 		JButton btnNewButton = new JButton("Logout");
+		btnNewButton.setFont(new Font("Georgia", Font.PLAIN, 12));
+		btnNewButton.setBackground(UIManager.getColor("Button.background"));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FinalPage.this.dispose();
@@ -52,7 +57,7 @@ public class FinalPage extends JFrame {
 				frame1.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(616, 11, 89, 23);
+		btnNewButton.setBounds(602, 11, 103, 23);
 		contentPane.add(btnNewButton);
 	}
 }

@@ -21,6 +21,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
+import javax.swing.UIManager;
 
 public class HomePage extends JFrame {
 
@@ -51,13 +53,13 @@ public class HomePage extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 701, 482);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(240, 230, 140));
+		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(240, 230, 140));
+		panel.setBackground(Color.LIGHT_GRAY);
 		panel.setBounds(22, 11, 316, 421);
 		contentPane.add(panel);
 		
@@ -69,9 +71,10 @@ public class HomePage extends JFrame {
 		panel.add(lblNewLabel);
 		
 		JButton btnRegister = new JButton("Register");
+		btnRegister.setSelectedIcon(null);
 		btnRegister.setToolTipText("Click to register to the system");
 		btnRegister.setForeground(new Color(0, 0, 0));
-		btnRegister.setBackground(SystemColor.control);
+		btnRegister.setBackground(UIManager.getColor("Button.background"));
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -95,7 +98,7 @@ public class HomePage extends JFrame {
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setToolTipText("Click to login to the system");
-		btnLogin.setBackground(SystemColor.control);
+		btnLogin.setBackground(UIManager.getColor("Button.background"));
 		btnLogin.setFont(new Font("Gabriola", Font.BOLD, 28));
 		btnLogin.setBounds(389, 218, 271, 52);
 		contentPane.add(btnLogin);
