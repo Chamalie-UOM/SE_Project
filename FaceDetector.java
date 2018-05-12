@@ -47,18 +47,21 @@ public class FaceDetector extends JFrame {
 	MysqlConnection db = MysqlConnection.getConnInstance();
 	User newuser;
 	
-	public boolean isAlpha(String name) {
-	    char[] chars = name.toCharArray();
-
-	    for (char c : chars) {
-	        if(!Character.isLetter(c)) {
-	            return false;
-	        }
-	    }
-
-	    return true;
-	}
+	//validate email
+	public static boolean validateEmailAddress(String email) {
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-z)]{2,3}$");
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
 	
+	//validate telephone number
+	public static boolean validateTpnum(String tpnum) {
+	    java.util.regex.Pattern p1 = java.util.regex.Pattern.compile("^\\d{3}\\s*\\d{7}$");
+	    java.util.regex.Matcher m1 = p1.matcher(tpnum);
+	    return m1.matches();
+	} 
+	
+	//inner class implementing runnable for a thread to get feed from webcam
 	class DaemonThread implements Runnable{
 		volatile boolean Runnable= false;
 		boolean dbflag = false;
@@ -187,29 +190,13 @@ public class FaceDetector extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JInternalFrame secPage = new JInternalFrame("Create Graphical Password");
-		secPage.setClosable(true);
-	
-		secPage.setBounds(10, 11, 534, 438);
-		contentPane.add(secPage);
-		secPage.getContentPane().setLayout(null);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(90, 24, 330, 317);
-		secPage.getContentPane().add(panel_1);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(208, 341, 89, 23);
-		secPage.getContentPane().add(btnNewButton);
-		secPage.setVisible(false);
-		
 		JButton setPass = new JButton("Set Password");
 		setPass.setVisible(false);
 		setPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				thread1.Runnable=false;
-				FaceDetector.this.dispose();
 				webSource.release();
+				FaceDetector.this.dispose();
 				CreatePass frame1 = new CreatePass(newuser);
 				frame1.btnLogin.setVisible(false);
 				frame1.btnUpdate.setVisible(false);
@@ -218,7 +205,7 @@ public class FaceDetector extends JFrame {
 			}
 		});
 		setPass.setFont(new Font("Georgia", Font.PLAIN, 15));
-		setPass.setBounds(260, 416, 147, 23);
+		setPass.setBounds(143, 355, 147, 23);
 		contentPane.add(setPass);
 		
 		JButton Nextbtn = new JButton("Next");
@@ -229,6 +216,10 @@ public class FaceDetector extends JFrame {
 			if (textFieldname.getText().trim().isEmpty() || textFieldmail.getText().trim().isEmpty() || 
 			textFieldtpnum.getText().trim().isEmpty()||textFieldPass.getText().trim().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Please complete all fields.");
+			}else if(!validateEmailAddress(textFieldmail.getText())){
+				JOptionPane.showMessageDialog(null, "Please enter a valid email.");
+			}else if(!validateTpnum(textFieldtpnum.getText())){
+				JOptionPane.showMessageDialog(null, "Please enter a valid telephone number.");
 			}else {
 				webSource = new VideoCapture();
 				webSource.open(0);
@@ -251,7 +242,7 @@ public class FaceDetector extends JFrame {
 			}
 			}
 		});
-		Nextbtn.setBounds(260, 382, 147, 23);
+		Nextbtn.setBounds(143, 355, 147, 23);
 		contentPane.add(Nextbtn);
 		
 		textFieldname = new JTextField();
@@ -260,6 +251,7 @@ public class FaceDetector extends JFrame {
 		textFieldname.setColumns(10);
 		
 		textFieldmail = new JTextField();
+		textFieldmail.setName("emailInput");
 		textFieldmail.setColumns(10);
 		textFieldmail.setBounds(221, 136, 286, 36);
 		contentPane.add(textFieldmail);
@@ -293,6 +285,23 @@ public class FaceDetector extends JFrame {
 		lblRecoveryPassword.setFont(new Font("Georgia", Font.PLAIN, 15));
 		lblRecoveryPassword.setBounds(78, 229, 133, 36);
 		contentPane.add(lblRecoveryPassword);
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!Nextbtn.isVisible()) {
+					db.deleteEntry(newuser.getName());
+				}
+				thread1.Runnable=false;
+				webSource.release();
+				FaceDetector.this.dispose();
+				HomePage frame6 = new HomePage();
+				frame6.setVisible(true);
+			}
+		});
+		btnCancel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		btnCancel.setBounds(313, 356, 147, 23);
+		contentPane.add(btnCancel);
 	
 		
 	}

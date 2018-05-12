@@ -116,6 +116,7 @@ public class FaceRecognizer extends JFrame {
 		contentPane.add(lblUsername);
 		
 		JButton btnNext = new JButton("Next");
+		btnNext.setToolTipText("Press to enter the graphical password to login");
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(userName.getText().trim().isEmpty()) {
@@ -142,10 +143,11 @@ public class FaceRecognizer extends JFrame {
 			}
 		});
 		btnNext.setFont(new Font("Georgia", Font.PLAIN, 15));
-		btnNext.setBounds(267, 383, 121, 34);
+		btnNext.setBounds(472, 383, 121, 34);
 		contentPane.add(btnNext);
 		
 		JButton btnPass = new JButton("Forgot password?");
+		btnPass.setToolTipText("Press to reset your graphical password");
 		btnPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(userName.getText().trim().isEmpty()) {
@@ -160,8 +162,21 @@ public class FaceRecognizer extends JFrame {
 			}
 		});
 		btnPass.setFont(new Font("Georgia", Font.PLAIN, 15));
-		btnPass.setBounds(398, 383, 167, 34);
+		btnPass.setBounds(10, 383, 167, 34);
 		contentPane.add(btnPass);
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FaceRecognizer.this.dispose();
+				HomePage frame7 = new HomePage();
+				frame7.setVisible(true);
+			}
+		});
+		btnCancel.setToolTipText("Press to return to Home Page");
+		btnCancel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		btnCancel.setBounds(330, 383, 121, 34);
+		contentPane.add(btnCancel);
 		
 		
 		

@@ -139,6 +139,7 @@ public class MysqlConnection {
 		return pass;
 	}
 	
+	
 	public void updatePassword(String name,String pass) {
 		String query ="update account set grph_pass=? where name=?;";
 		PreparedStatement stmt;
@@ -152,8 +153,17 @@ public class MysqlConnection {
 			}
 			
 	}
-	public static void main(String[] args) {	
-
-	} 
+	
+	public void deleteEntry(String name) {
+		String query ="delete from user where name =?;";
+		PreparedStatement stmt;
+		try {
+			stmt =this.conn.prepareStatement(query);
+			stmt.setString(1,name);
+			stmt.execute();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
