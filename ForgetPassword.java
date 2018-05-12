@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -56,12 +57,13 @@ public class ForgetPassword extends JFrame {
 		lblNewLabel.setFont(new Font("Lucida Fax", Font.PLAIN, 18));
 		contentPane.add(lblNewLabel);
 		
-		textpass = new JTextField();
+		textpass = new JPasswordField();
 		textpass.setBounds(122, 154, 305, 30);
 		contentPane.add(textpass);
 		textpass.setColumns(10);
 		
 		JButton btnEnter = new JButton("Enter");
+		btnEnter.setToolTipText("Press to reset your graphical password");
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if((db.getRecoveryPass(user.getName()).equals(textpass.getText()))) {
@@ -78,7 +80,20 @@ public class ForgetPassword extends JFrame {
 			}
 		});
 		btnEnter.setFont(new Font("Lucida Fax", Font.PLAIN, 14));
-		btnEnter.setBounds(199, 209, 153, 38);
+		btnEnter.setBounds(188, 275, 153, 38);
 		contentPane.add(btnEnter);
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setToolTipText("Press to return to Login page");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ForgetPassword.this.dispose();
+				FaceRecognizer frame = new FaceRecognizer();
+				frame.setVisible(true);
+			}
+		});
+		btnCancel.setFont(new Font("Lucida Fax", Font.PLAIN, 14));
+		btnCancel.setBounds(372, 275, 153, 38);
+		contentPane.add(btnCancel);
 	}
 }

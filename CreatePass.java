@@ -61,6 +61,8 @@ public class CreatePass extends JFrame {
 	JButton btnLogin;
 	JButton btnUpdate;
 	int count;
+	int confirm;
+	String firstTry;
 	/**
 	 * Launch the application.
 	 */
@@ -98,16 +100,31 @@ public class CreatePass extends JFrame {
 		displayFace(lblNewLabel);
 		
 		//Registration process
+		confirm=0;
 		btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println(ps.getPassString());
-				if(ps.getPassString().length()>=4) {
-					db.savePassword(user.getName(), ps.getPassString());
-					JOptionPane.showMessageDialog(null, "Registered to the system successfully.");
-					CreatePass.this.dispose();
-					HomePage frame4 = new HomePage();
-					frame4.setVisible(true);
+				if(ps.getPassString().length()>=4 && confirm==1) {
+					if(firstTry.equals(ps.getPassString())) {
+						db.savePassword(user.getName(), ps.getPassString());
+						JOptionPane.showMessageDialog(null, "Registered to the system successfully.");
+						CreatePass.this.dispose();
+						HomePage frame4 = new HomePage();
+						frame4.setVisible(true);
+					}else {
+						ps.PassSeq.clear();
+						confirm=0;
+						firstTry=null;
+						JOptionPane.showMessageDialog(null, "The password you enterd does not match the confirmation. Please re-enter.");
+					}
+					
+				}else if(confirm<1){
+					firstTry =ps.getPassString();
+					ps.PassSeq.clear();
+					JOptionPane.showMessageDialog(null, "pleasse enter your password again for confirmation.");
+					btnRegister.setText("Confirm");
+					confirm=1;	
 				}else {
 					JOptionPane.showMessageDialog(null, "Your password should contain minimum four clicks.");
 				}
@@ -125,11 +142,14 @@ public class CreatePass extends JFrame {
 				System.out.println(db.getPassword(user.getName()));
 				System.out.println(ps.getPassString());
 				if (ps.getPassString().equals(db.getPassword(user.getName()))) {
+					CreatePass.this.dispose();
 					JOptionPane.showMessageDialog(null, "Logged in successfully.");
+					FinalPage frame5 = new FinalPage();
+					frame5.setVisible(true);
 				}else {
 					JOptionPane.showMessageDialog(null, "Incorrect password. Please try again.");
 					count++;
-					if(count>3) {
+					if(count>2) {
 						btnLogin.setVisible(false);
 						try {
 							JOptionPane.showMessageDialog(null, "You have incorrectly entered the password three times. System will be locked for one minute.");
@@ -149,22 +169,48 @@ public class CreatePass extends JFrame {
 		cpane.add(btnLogin);
 		
 		//Forgot password process
+		confirm=0;
 		btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(ps.getPassString().length()>=4) {
-					db.updatePassword(user.getName(), ps.getPassString());
-					JOptionPane.showMessageDialog(null, "Password updated successfully.");
-					HomePage frame1 = new HomePage();
-					frame1.setVisible(true);
-					CreatePass.this.dispose();
+				if(ps.getPassString().length()>=4 && confirm==1) {
+					if(firstTry.equals(ps.getPassString())) {
+						db.updatePassword(user.getName(), ps.getPassString());
+						JOptionPane.showMessageDialog(null, "Password updated successfully.");
+						HomePage frame1 = new HomePage();
+						frame1.setVisible(true);
+						CreatePass.this.dispose();
+					}else {
+						ps.PassSeq.clear();
+						confirm=0;
+						firstTry=null;
+						JOptionPane.showMessageDialog(null, "The password you enterd does not match the confirmation. Please re-enter.");
+					}	
+				}else if(confirm<1){
+					firstTry =ps.getPassString();
+					ps.PassSeq.clear();
+					JOptionPane.showMessageDialog(null, "pleasse enter your password again for confirmation.");
+					btnUpdate.setText("Confirm");
+					confirm=1;	
 				}else {
 					JOptionPane.showMessageDialog(null, "Your password should contain minimum four clicks.");
-				}	
+				}
 			}
 		});
 		btnUpdate.setBounds(336, 374, 89, 23);
 		cpane.add(btnUpdate);
+		
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				db.deleteEntry(user.getName());
+				CreatePass.this.dispose();
+				HomePage frame1 = new HomePage();
+				frame1.setVisible(true);
+			}
+		});
+		btnCancel.setBounds(241, 374, 89, 23);
+		cpane.add(btnCancel);
 		
 	}
 	
@@ -192,6 +238,7 @@ public class CreatePass extends JFrame {
 		}
 		
 	};
+	private JButton btnCancel;
 	
 	public void displayFace(JLabel lblNewLabel) {
 		BufferedImage b=null;
