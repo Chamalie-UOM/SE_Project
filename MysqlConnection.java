@@ -165,5 +165,22 @@ public class MysqlConnection {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean checkUserExistance(String name) {
+		String query = "SELECT * FROM user WHERE name =?;";
+		PreparedStatement stmt;
+		boolean exists=false;
+		try {
+			stmt = this.conn.prepareStatement(query);
+			stmt.setString(1,name);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				exists=true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return exists;
+	}
 
 }
