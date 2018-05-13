@@ -79,17 +79,18 @@ public class CreatePass extends JFrame {
 	 * Create the frame.
 	 */
 	public CreatePass(User user) {
+		setTitle("Graphical Password");
 		this.user =user;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 451, 447);
 		cpane = new JPanel();
-		cpane.setBackground(new Color(240, 230, 140));
+		cpane.setBackground(Color.LIGHT_GRAY);
 		cpane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(cpane);
 		cpane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(240, 230, 140));
+		panel.setBackground(Color.LIGHT_GRAY);
 		panel.setBounds(10, 11, 292, 176);
 		cpane.add(panel);
 		
@@ -102,7 +103,7 @@ public class CreatePass extends JFrame {
 		displayFace(lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(240, 230, 140));
+		panel_1.setBackground(Color.LIGHT_GRAY);
 		panel_1.setBounds(312, 320, 113, 77);
 		cpane.add(panel_1);
 		panel_1.setLayout(null);
@@ -111,6 +112,7 @@ public class CreatePass extends JFrame {
 		//Registration process
 		confirm=0;
 		btnRegister = new JButton("Register");
+		btnRegister.setFont(new Font("Georgia", Font.PLAIN, 12));
 		btnRegister.setBounds(0, 54, 84, 23);
 		panel_1.add(btnRegister);
 		btnRegister.addActionListener(new ActionListener() {
@@ -127,7 +129,7 @@ public class CreatePass extends JFrame {
 						ps.PassSeq.clear();
 						confirm=0;
 						firstTry=null;
-						JOptionPane.showMessageDialog(null, "The password you enterd does not match the confirmation. Please re-enter.");
+						JOptionPane.showMessageDialog(null, "The password you entered does not match the confirmation. Please re-enter.");
 						btnRegister.setText("Register");
 					}
 				}else if(confirm<1){
@@ -171,6 +173,7 @@ public class CreatePass extends JFrame {
 		//Login process
 		count=0;
 		btnLogin = new JButton("Login");
+		btnLogin.setFont(new Font("Georgia", Font.PLAIN, 12));
 		btnLogin.setBounds(0, 54, 84, 23);
 		panel_1.add(btnLogin);
 		btnLogin.addActionListener(new ActionListener() {
@@ -206,6 +209,7 @@ public class CreatePass extends JFrame {
 		//Forgot password process
 		confirm=0;
 		btnUpdate = new JButton("Update");
+		btnUpdate.setFont(new Font("Georgia", Font.PLAIN, 12));
 		btnUpdate.setBounds(0, 54, 84, 23);
 		panel_1.add(btnUpdate);
 		btnUpdate.addActionListener(new ActionListener() {
@@ -237,7 +241,7 @@ public class CreatePass extends JFrame {
 		});
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(240, 230, 140));
+		panel_2.setBackground(Color.LIGHT_GRAY);
 		panel_2.setBounds(174, 320, 128, 77);
 		cpane.add(panel_2);
 		panel_2.setLayout(null);
@@ -249,14 +253,15 @@ public class CreatePass extends JFrame {
 		waitinglbl.setVisible(false);
 		
 		countDown = new JLabel("60");
-		countDown.setBounds(35, 11, 29, 32);
+		countDown.setBounds(41, 11, 29, 32);
 		panel_2.add(countDown);
-		countDown.setFont(new Font("Lucida Fax", Font.BOLD, 15));
+		countDown.setFont(new Font("Lucida Fax", Font.BOLD, 17));
 		countDown.setVisible(false);
 		
 		
 		//cancelling process
 		btnCancel = new JButton("Cancel");
+		btnCancel.setFont(new Font("Georgia", Font.PLAIN, 12));
 		btnCancel.setBounds(0, 54, 87, 23);
 		panel_2.add(btnCancel);
 		btnCancel.addActionListener(new ActionListener() {

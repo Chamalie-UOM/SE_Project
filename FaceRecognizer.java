@@ -28,6 +28,9 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import javax.swing.UIManager;
+import javax.swing.ImageIcon;
 
 
 public class FaceRecognizer extends JFrame {
@@ -94,28 +97,34 @@ public class FaceRecognizer extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 662, 482);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(240, 230, 140));
+		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(240, 230, 140));
-		panel.setBounds(98, 0, 456, 316);
+		panel.setBackground(Color.LIGHT_GRAY);
+		panel.setBounds(10, 0, 626, 225);
 		contentPane.add(panel);
 		
+		JLabel pic = new JLabel("");
+		pic.setIcon(new ImageIcon(FaceRecognizer.class.getResource("/pics/795605146ca6394.jpg")));
+		panel.add(pic);
+		
 		userName = new JTextField();
+		userName.setFont(new Font("Georgia", Font.PLAIN, 15));
 	
-		userName.setBounds(267, 327, 270, 34);
+		userName.setBounds(249, 266, 270, 34);
 		contentPane.add(userName);
 		userName.setColumns(10);
 		
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Georgia", Font.PLAIN, 15));
-		lblUsername.setBounds(181, 327, 85, 34);
+		lblUsername.setBounds(154, 266, 85, 34);
 		contentPane.add(lblUsername);
 		
 		JButton btnNext = new JButton("Next");
+		btnNext.setBackground(UIManager.getColor("Button.background"));
 		btnNext.setToolTipText("Press to enter the graphical password to login");
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -132,12 +141,13 @@ public class FaceRecognizer extends JFrame {
 						FaceRecognizer.this.recognize();
 						user.setName(userName.getText());
 						user.setFace(db.getFace(user));
+						FaceRecognizer.this.dispose();
 						CreatePass frame1 = new CreatePass(user);
 						frame1.btnRegister.setVisible(false);
 						frame1.btnUpdate.setVisible(false);
 						frame1.setVisible(true);
 						JOptionPane.showMessageDialog(null,"Enter your password sequence to login.");
-						FaceRecognizer.this.dispose();
+						
 					}else {
 						System.out.println("code not working");
 					}
@@ -149,6 +159,7 @@ public class FaceRecognizer extends JFrame {
 		contentPane.add(btnNext);
 		
 		JButton btnPass = new JButton("Forgot password?");
+		btnPass.setBackground(UIManager.getColor("Button.background"));
 		btnPass.setToolTipText("Press to reset your graphical password");
 		btnPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -170,6 +181,7 @@ public class FaceRecognizer extends JFrame {
 		contentPane.add(btnPass);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setBackground(UIManager.getColor("Button.background"));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FaceRecognizer.this.dispose();
@@ -181,5 +193,10 @@ public class FaceRecognizer extends JFrame {
 		btnCancel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		btnCancel.setBounds(330, 383, 121, 34);
 		contentPane.add(btnCancel);
+		
+		JLabel lblNewLabel = new JLabel("Enter the username to login to your account");
+		lblNewLabel.setFont(new Font("Georgia", Font.PLAIN, 16));
+		lblNewLabel.setBounds(10, 224, 505, 19);
+		contentPane.add(lblNewLabel);
 	}
 }
