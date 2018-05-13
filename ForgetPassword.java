@@ -16,6 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class ForgetPassword extends JFrame {
 
@@ -43,26 +46,29 @@ public class ForgetPassword extends JFrame {
 	 * Create the frame.
 	 */
 	public ForgetPassword(User user) {
+		setTitle("Reset Password");
 		this.user =user;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 551, 400);
+		setBounds(100, 100, 657, 465);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(240, 230, 140));
+		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Enter the recovery text password entered at registration.");
-		lblNewLabel.setBounds(10, 27, 525, 22);
-		lblNewLabel.setFont(new Font("Lucida Fax", Font.PLAIN, 18));
+		lblNewLabel.setBounds(10, 224, 525, 22);
+		lblNewLabel.setFont(new Font("Lucida Fax", Font.PLAIN, 17));
 		contentPane.add(lblNewLabel);
 		
 		textpass = new JPasswordField();
-		textpass.setBounds(122, 154, 305, 30);
+		textpass.setFont(new Font("Georgia", Font.PLAIN, 15));
+		textpass.setBounds(264, 277, 305, 30);
 		contentPane.add(textpass);
 		textpass.setColumns(10);
 		
 		JButton btnEnter = new JButton("Enter");
+		btnEnter.setBackground(UIManager.getColor("Button.background"));
 		btnEnter.setToolTipText("Press to reset your graphical password");
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -79,10 +85,11 @@ public class ForgetPassword extends JFrame {
 			}
 		});
 		btnEnter.setFont(new Font("Lucida Fax", Font.PLAIN, 14));
-		btnEnter.setBounds(188, 275, 153, 38);
+		btnEnter.setBounds(266, 349, 153, 38);
 		contentPane.add(btnEnter);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setBackground(UIManager.getColor("Button.background"));
 		btnCancel.setToolTipText("Press to return to Login page");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -92,7 +99,21 @@ public class ForgetPassword extends JFrame {
 			}
 		});
 		btnCancel.setFont(new Font("Lucida Fax", Font.PLAIN, 14));
-		btnCancel.setBounds(372, 275, 153, 38);
+		btnCancel.setBounds(451, 349, 153, 38);
 		contentPane.add(btnCancel);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.LIGHT_GRAY);
+		panel.setBounds(10, 11, 621, 202);
+		contentPane.add(panel);
+		
+		JLabel pic1 = new JLabel("New label");
+		pic1.setIcon(new ImageIcon(ForgetPassword.class.getResource("/pics/795605146ca6394.jpg")));
+		panel.add(pic1);
+		
+		JLabel lblNewLabel_1 = new JLabel("Recovery text");
+		lblNewLabel_1.setFont(new Font("Georgia", Font.PLAIN, 16));
+		lblNewLabel_1.setBounds(147, 281, 118, 21);
+		contentPane.add(lblNewLabel_1);
 	}
 }
