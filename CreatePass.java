@@ -225,7 +225,7 @@ public class CreatePass extends JFrame {
 						ps.PassSeq.clear();
 						confirm=0;
 						firstTry=null;
-						JOptionPane.showMessageDialog(null, "The password you enterd does not match the confirmation. Please re-enter.");
+						JOptionPane.showMessageDialog(null, "The password you entered does not match the confirmation. Please re-enter.");
 						btnUpdate.setText("Update");
 					}	
 				}else if(confirm<1){

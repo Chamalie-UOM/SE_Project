@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import javax.swing.JSeparator;
 
 public class ForgetPassword extends JFrame {
 
@@ -57,8 +58,8 @@ public class ForgetPassword extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Enter the recovery text password entered at registration.");
-		lblNewLabel.setBounds(10, 224, 525, 22);
-		lblNewLabel.setFont(new Font("Lucida Fax", Font.PLAIN, 17));
+		lblNewLabel.setBounds(10, 224, 470, 22);
+		lblNewLabel.setFont(new Font("Georgia", Font.PLAIN, 16));
 		contentPane.add(lblNewLabel);
 		
 		textpass = new JPasswordField();
@@ -115,5 +116,9 @@ public class ForgetPassword extends JFrame {
 		lblNewLabel_1.setFont(new Font("Georgia", Font.PLAIN, 16));
 		lblNewLabel_1.setBounds(147, 281, 118, 21);
 		contentPane.add(lblNewLabel_1);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 257, 559, 2);
+		contentPane.add(separator);
 	}
 }

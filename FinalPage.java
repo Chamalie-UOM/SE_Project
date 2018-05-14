@@ -45,7 +45,7 @@ public class FinalPage extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
-		panel.setBounds(10, 66, 682, 369);
+		panel.setBounds(10, 66, 695, 369);
 		contentPane.add(panel);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
