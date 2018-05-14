@@ -21,7 +21,7 @@ public class MysqlConnection {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn =DriverManager.getConnection("jdbc:mysql://localhost:3306/facedb","root","Chamalie$1995");
 			if(conn!=null) {
-				JOptionPane.showMessageDialog(null, "Connection successfull.");
+				//JOptionPane.showMessageDialog(null, "Connection successfull.");
 			}
 				
 		} catch (Exception e) {

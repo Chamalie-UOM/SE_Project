@@ -31,6 +31,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.UIManager;
 import javax.swing.ImageIcon;
+import javax.swing.JSeparator;
 
 
 public class FaceRecognizer extends JFrame {
@@ -114,13 +115,13 @@ public class FaceRecognizer extends JFrame {
 		userName = new JTextField();
 		userName.setFont(new Font("Georgia", Font.PLAIN, 15));
 	
-		userName.setBounds(249, 266, 270, 34);
+		userName.setBounds(249, 279, 270, 34);
 		contentPane.add(userName);
 		userName.setColumns(10);
 		
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Georgia", Font.PLAIN, 15));
-		lblUsername.setBounds(154, 266, 85, 34);
+		lblUsername.setBounds(154, 279, 85, 34);
 		contentPane.add(lblUsername);
 		
 		JButton btnNext = new JButton("Next");
@@ -198,5 +199,9 @@ public class FaceRecognizer extends JFrame {
 		lblNewLabel.setFont(new Font("Georgia", Font.PLAIN, 16));
 		lblNewLabel.setBounds(10, 224, 505, 19);
 		contentPane.add(lblNewLabel);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 254, 511, 2);
+		contentPane.add(separator);
 	}
 }

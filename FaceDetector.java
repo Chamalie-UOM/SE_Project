@@ -152,8 +152,7 @@ public class FaceDetector extends JFrame {
 			System.out.print(face);
 			return face;
 		}
-		
-		
+
 	}
 	
 	JPanel contentPane;
